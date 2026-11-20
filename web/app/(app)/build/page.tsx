@@ -32,12 +32,13 @@ const USED: { name: string; href: string; what: string }[] = [
   { name: "Nomad 0.6.0", href: "https://github.com/kadiri-seer/nomad/blob/main/docs/guides/stoa-setups.md", what: "Stoa's MCP tools built into the agent" },
   { name: "Autonomo", href: "https://autonomo.fun", what: "Stoa's Token Safety Check and Swap Quote as paid agent APIs ($0.01 a call, x402)" },
   { name: "Stoa Quote Bot · Community", href: "https://t.me/Stoatrade_bot", what: "community Telegram bot: /quote and /check for Robinhood Chain tokens, built on Stoa's API" },
+  { name: "Stoa Dashboard · Community", href: "https://doms99999.github.io/stoa-dashboard/", what: "community dashboard of Stoa's swaps on Robinhood Chain: volume, traders, referrers and routes per venue, read from the router's Routed events, queries open" },
 ];
 const short = (a: string) => `${a.slice(0, 6)}…${a.slice(-4)}`;
-const BOUNTIES: { t: string; b: string; won?: { href: string; tx: string } }[] = [
+const BOUNTIES: { t: string; b: string; won?: { href: string; tx?: string } }[] = [
   { t: "Telegram bot", b: "A bot in a public group that answers /quote and /check for any Robinhood Chain token, using Stoa's HTTP API or MCP server, and links each quote to a swap on Stoa.", won: { href: "https://github.com/StoaDex/Stoa/issues/7", tx: "https://robinhoodchain.blockscout.com/tx/0xcb332b52c50dfd461da2895886c37d47aa3d70d0d8271a35c5d4d7007ee3544c" } },
   { t: "Swap widget on a token's site", b: "Stoa's swap widget or buy card live on the website of a token that trades on Robinhood Chain, added by you with the project's agreement." },
-  { t: "Public dashboard", b: "A public dashboard of Stoa's swaps on Robinhood Chain (volume, traders, routes per venue) built from on-chain data on Dune, Blockscout or your own site, with its queries shared." },
+  { t: "Public dashboard", b: "A public dashboard of Stoa's swaps on Robinhood Chain (volume, traders, routes per venue) built from on-chain data on Dune, Blockscout or your own site, with its queries shared.", won: { href: "https://github.com/StoaDex/Stoa/issues/14" } },
 ];
 
 const SOL = `// 1. off-chain: route = router.quote(USDC, WHYPE, 250e6)  (eth_call)
@@ -98,10 +99,10 @@ export default function BuildPage() {
         ))}
       </div>
       <div id="bounties" className="panel pad" style={{ marginBottom: 20 }}>
-        <div className="rowx"><div className="lbl">BUILD BOUNTIES · $150 IN USDG · 2 OPEN</div><span className="chip">Open until Sun 20 Dec 2026, 23:59 UTC</span></div>
+        <div className="rowx"><div className="lbl">BUILD BOUNTIES · $150 IN USDG · 1 OPEN</div><span className="chip">Open until Sun 20 Dec 2026, 23:59 UTC</span></div>
         <p style={{ marginTop: 10 }}>Three bounties of $50 each, paid in USDG on Robinhood Chain to the first working entry for each one.</p>
         <ol className="list" style={{ marginTop: 8, paddingLeft: 18 }}>
-          {BOUNTIES.map((b) => <li key={b.t} style={{ marginBottom: 8 }}><b>{b.t}.</b> {b.b}{b.won && <> <span className="chip">Claimed</span> <a href={b.won.href} target="_blank" rel="noopener noreferrer">Entry</a> · <a href={b.won.tx} target="_blank" rel="noopener noreferrer">Paid tx</a></>}</li>)}
+          {BOUNTIES.map((b) => <li key={b.t} style={{ marginBottom: 8 }}><b>{b.t}.</b> {b.b}{b.won && <> <span className="chip">Claimed</span> <a href={b.won.href} target="_blank" rel="noopener noreferrer">Entry</a>{b.won.tx && <> · <a href={b.won.tx} target="_blank" rel="noopener noreferrer">Paid tx</a></>}</>}</li>)}
         </ol>
         <p className="note" style={{ marginTop: 8 }}>To count, it has to be live and public, its code open on GitHub, and every swap it sends has to name your address as <code>referrer</code>, so you also earn the referrer share. Stoa checks each entry before paying; one bounty per person. No wash trading: entries that inflate swaps are not paid.</p>
         <a className="go" href="https://github.com/StoaDex/Stoa/issues/new?title=Bounty%3A%20&labels=bounty" target="_blank" rel="noopener noreferrer">Submit on GitHub</a>
